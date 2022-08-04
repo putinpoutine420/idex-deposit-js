@@ -41,6 +41,7 @@ async function returnToken(token) {
 }
 
 // matic deposit
+// usage: depositMatic("10000"); Deposits in full matic value. Checks gas for failures
 async function depositMatic(amount) {
     const gasPrice = await getGas();
     const transaction = await exchangeContract.populateTransaction.depositEther({
@@ -79,7 +80,9 @@ async function depositMatic(amount) {
     }
 }
 
+// token deposit
 // TODO: Check for token allowance and automatic approvals
+// usage: depositToken("10000", "USDC"); Deposits in full token value. Automatically fetches token data from idex for parsing. Checks gas for failures
 async function depositToken(amount, token) {
     const getToken = await returnToken(token);
     const gasPrice = await getGas();
@@ -128,5 +131,3 @@ async function depositToken(amount, token) {
         console.log(e);
     }
 }
-
-depositToken("10000", "USDC");
