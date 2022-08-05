@@ -19,7 +19,7 @@ async function getGas() {
     const maxFee = JSON.stringify(Math.round(fetchGas.fast.maxFee + 1));
     const parsedmaxPriorityFee = ethers.utils.parseUnits(maxPriorityFee, "9");
     const parsedMaxFee = ethers.utils.parseUnits(maxFee, "9");
-    if (parsedmaxPriorityFee.lt(parsedMaxFee)) {
+    if (parsedmaxPriorityFee.gt(parsedMaxFee)) {
         return [parsedMaxFee, parsedmaxPriorityFee]
     }
     return [parsedmaxPriorityFee, parsedMaxFee];
