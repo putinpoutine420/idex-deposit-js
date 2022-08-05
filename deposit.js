@@ -10,6 +10,7 @@ const populatedTx = new ethers.Contract(exchangeAddress, abi);
 const exchangeContract = new ethers.Contract(exchangeAddress, abi, wallet);
 
 // utils
+// utils
 async function getGas() {
     const fetchGas = await fetch(
         "https://gasstation-mainnet.matic.network/v2"
@@ -18,6 +19,9 @@ async function getGas() {
     const maxFee = JSON.stringify(Math.round(fetchGas.fast.maxFee + 1));
     const parsedmaxPriorityFee = ethers.utils.parseUnits(maxPriorityFee, "9");
     const parsedMaxFee = ethers.utils.parseUnits(maxFee, "9");
+    if (parsedmaxPriorityFee.lt(parsedMaxFee)) {
+        return [parsedMaxFee, parsedmaxPriorityFee]
+    }
     return [parsedmaxPriorityFee, parsedMaxFee];
 }
 
@@ -25,12 +29,11 @@ async function returnToken(token) {
     const getTokens = await fetch("https://api-matic.idex.io/v1/assets").then(
         (response) => response.json()
     );
-    const tokensFetch = [];
-    tokensFetch.push(getTokens);
-    var fetchTokens = tokensFetch[0];
-    for (i = 0; i < fetchTokens.length; i++) {
-        if (token != "MATIC" && fetchTokens[i].symbol == token) {
-            return fetchTokens[i];
+    var tokensFetch = [];
+    tokensFetch.push(getTokens); tokensFetch = tokensFetch[0];
+    for (i = 0; i < tokensFetch.length; i++) {
+        if (token != "MATIC" && tokensFetch[i].symbol == token) {
+            return tokensFetch[i];
         } else if (token == "MATIC") {
             throw console.error(
                 `Can't deposit MATIC using this function. Use depositMatic instead.`
