@@ -26,13 +26,12 @@ async function getGas() {
 }
 
 async function returnToken(token) {
-    const getTokens = await fetch("https://api-matic.idex.io/v1/assets").then(
+    const tokensFetch = await fetch("https://api-matic.idex.io/v1/assets").then(
         (response) => response.json()
     );
-    var tokensFetch = [];
-    tokensFetch.push(getTokens); tokensFetch = tokensFetch[0];
     for (i = 0; i < tokensFetch.length; i++) {
         if (token != "MATIC" && tokensFetch[i].symbol == token) {
+            console.log(tokensFetch[i])
             return tokensFetch[i];
         } else if (token == "MATIC") {
             throw console.error(
