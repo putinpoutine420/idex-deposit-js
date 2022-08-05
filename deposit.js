@@ -37,7 +37,7 @@ async function returnToken(token) {
             const tokenContract = new ethers.Contract(tokensFetch[i].contractAddress, tokenAbi, wallet)
             const checkAllowance = await tokenContract.allowance(wallet.address, exchangeAddress)
             console.log(checkAllowance)
-            if (checkAllowance.eq(hcMaxUint256)) { // 
+            if (checkAllowance.gte(hcMaxUint256)) { // 
                 return tokensFetch[i];
             } else {
                 const gasPrice = await getGas();
