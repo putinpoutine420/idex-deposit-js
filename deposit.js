@@ -56,12 +56,12 @@ async function returnToken(token) {
                 return tokensFetch[i]
             }
         } else if (token == "MATIC") {
-            throw console.error(
+            throw Error(
                 `Can't deposit MATIC using this function. Use depositMatic instead.`
             );
         }
     }
-    throw console.error(`Token "${token}" not found`);
+    throw Error(`Token "${token}" not found`);
 }
 
 // matic deposit
